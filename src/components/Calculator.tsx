@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
+import { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
-} from 'chart.js';
-import styles from '../styles/Home.module.css';
+} from "chart.js";
+import styles from "../styles/Home.module.css";
 
 ChartJS.register(
   CategoryScale,
@@ -23,7 +23,7 @@ ChartJS.register(
 );
 
 const formatNumber = (num: number): string => {
-  if (isNaN(num)) return ''; // Return an empty string for NaN
+  if (isNaN(num)) return ""; // Return an empty string for NaN
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
@@ -32,7 +32,7 @@ const roundUp = (num: number): number => {
 };
 
 const unformatNumber = (num: string): string => {
-  return num.replace(/,/g, '');
+  return num.replace(/,/g, "");
 };
 
 interface CalculationResult {
@@ -94,25 +94,25 @@ const calculateProfit = (totalBuyingPrice: number, totalSellPrice: number, lotVa
 };
 
 const Calculator = () => {
-  const [lot, setLot] = useState<string>('');
-  const [pricePerShare, setPricePerShare] = useState<string>('');
-  const [sellLot, setSellLot] = useState<string>('');
-  const [sellPricePerShare, setSellPricePerShare] = useState<string>('');
-  const [priceStep, setPriceStep] = useState<string>('1');
-  const [buyFeePercentage, setBuyFeePercentage] = useState<string>('0.1513');
-  const [sellFeePercentage, setSellFeePercentage] = useState<string>('0.2513');
+  const [lot, setLot] = useState<string>("");
+  const [pricePerShare, setPricePerShare] = useState<string>("");
+  const [sellLot, setSellLot] = useState<string>("");
+  const [sellPricePerShare, setSellPricePerShare] = useState<string>("");
+  const [priceStep, setPriceStep] = useState<string>("1");
+  const [buyFeePercentage, setBuyFeePercentage] = useState<string>("0.1513");
+  const [sellFeePercentage, setSellFeePercentage] = useState<string>("0.2513");
   const [calculation, setCalculation] = useState<CalculationResult | null>(null);
   const [profit, setProfit] = useState<ProfitResult | null>(null);
   const [chartData, setChartData] = useState<any>(null);
 
   useEffect(() => {
-    const savedLot = localStorage.getItem('lot');
-    const savedPricePerShare = localStorage.getItem('pricePerShare');
-    const savedSellLot = localStorage.getItem('sellLot');
-    const savedSellPricePerShare = localStorage.getItem('sellPricePerShare');
-    const savedPriceStep = localStorage.getItem('priceStep');
-    const savedBuyFeePercentage = localStorage.getItem('buyFeePercentage');
-    const savedSellFeePercentage = localStorage.getItem('sellFeePercentage');
+    const savedLot = localStorage.getItem("lot");
+    const savedPricePerShare = localStorage.getItem("pricePerShare");
+    const savedSellLot = localStorage.getItem("sellLot");
+    const savedSellPricePerShare = localStorage.getItem("sellPricePerShare");
+    const savedPriceStep = localStorage.getItem("priceStep");
+    const savedBuyFeePercentage = localStorage.getItem("buyFeePercentage");
+    const savedSellFeePercentage = localStorage.getItem("sellFeePercentage");
 
     if (savedLot) setLot(savedLot);
     if (savedPricePerShare) setPricePerShare(savedPricePerShare);
@@ -124,32 +124,32 @@ const Calculator = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('lot', lot);
-    localStorage.setItem('pricePerShare', pricePerShare);
-    localStorage.setItem('sellLot', sellLot);
-    localStorage.setItem('sellPricePerShare', sellPricePerShare);
-    localStorage.setItem('priceStep', priceStep);
-    localStorage.setItem('buyFeePercentage', buyFeePercentage);
-    localStorage.setItem('sellFeePercentage', sellFeePercentage);
+    localStorage.setItem("lot", lot);
+    localStorage.setItem("pricePerShare", pricePerShare);
+    localStorage.setItem("sellLot", sellLot);
+    localStorage.setItem("sellPricePerShare", sellPricePerShare);
+    localStorage.setItem("priceStep", priceStep);
+    localStorage.setItem("buyFeePercentage", buyFeePercentage);
+    localStorage.setItem("sellFeePercentage", sellFeePercentage);
   }, [lot, pricePerShare, sellLot, sellPricePerShare, priceStep, buyFeePercentage, sellFeePercentage]);
 
   const handleLotChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.replace(/\D/g, ''); // Remove non-digit characters
+    const value = event.target.value.replace(/\D/g, ""); // Remove non-digit characters
     setLot(value);
   };
 
   const handlePricePerShareChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.replace(/\D/g, ''); // Remove non-digit characters
+    const value = event.target.value.replace(/\D/g, ""); // Remove non-digit characters
     setPricePerShare(value);
   };
 
   const handleSellLotChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.replace(/\D/g, ''); // Remove non-digit characters
+    const value = event.target.value.replace(/\D/g, ""); // Remove non-digit characters
     setSellLot(value);
   };
 
   const handleSellPricePerShareChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.replace(/\D/g, ''); // Remove non-digit characters
+    const value = event.target.value.replace(/\D/g, ""); // Remove non-digit characters
     setSellPricePerShare(value);
   };
 
@@ -194,7 +194,8 @@ const Calculator = () => {
     setSellLot(lot);
   };
 
-  const handleCalculate = () => {
+
+  useEffect(() => {
     const lotValue = lot ? parseInt(unformatNumber(lot)) : NaN;
     const pricePerShareValue = pricePerShare ? parseFloat(unformatNumber(pricePerShare)) : NaN;
     const sellLotValue = sellLot ? parseInt(unformatNumber(sellLot)) : NaN;
@@ -231,10 +232,10 @@ const Calculator = () => {
         labels,
         datasets: [
           {
-            label: 'Profit After Fees',
+            label: "Profit After Fees",
             data: profitData,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: "rgba(75, 192, 192, 1)",
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
             fill: true,
           },
         ],
@@ -244,16 +245,12 @@ const Calculator = () => {
       setProfit(null);
       setChartData(null);
     }
-  };
-
-  useEffect(() => {
-    handleCalculate();
   }, [lot, pricePerShare, sellLot, sellPricePerShare, priceStep, buyFeePercentage, sellFeePercentage]);
 
   const handleCopy = (event: React.ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
     const textToCopy = unformatNumber(event.currentTarget.value);
-    event.clipboardData.setData('text/plain', textToCopy);
+    event.clipboardData.setData("text/plain", textToCopy);
   };
 
   return (
@@ -261,7 +258,8 @@ const Calculator = () => {
       <div className={styles.topContainer}>
         <div className={styles.leftContainer}>
           <div className={styles.configContainer}>
-            <label className={styles.configLabel} htmlFor="buy_fee">Buy Fee %:</label>
+            <label className={styles.configLabel} htmlFor="buy_fee">Buy Fee
+              %:</label>
             <input
               className={styles.configInput}
               type="text"
@@ -270,7 +268,8 @@ const Calculator = () => {
               value={buyFeePercentage}
               onChange={handleBuyFeePercentageChange}
             />
-            <label className={styles.configLabel} htmlFor="sell_fee">Sell Fee %:</label>
+            <label className={styles.configLabel} htmlFor="sell_fee">Sell Fee
+              %:</label>
             <input
               className={styles.configInput}
               type="text"
@@ -279,7 +278,8 @@ const Calculator = () => {
               value={sellFeePercentage}
               onChange={handleSellFeePercentageChange}
             />
-            <label className={styles.configLabel} htmlFor="price_step">Price Step:</label>
+            <label className={styles.configLabel} htmlFor="price_step">Price
+              Step:</label>
             <input
               className={styles.configInput}
               type="text"
@@ -291,7 +291,8 @@ const Calculator = () => {
           </div>
           <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
             <div className={styles.inputContainer}>
-              <label className={styles.label} htmlFor="lot">Lots Bought:</label>
+              <label className={styles.label} htmlFor="lot">Lots
+                Bought:</label>
               <input
                 className={styles.input}
                 type="text"
@@ -306,13 +307,13 @@ const Calculator = () => {
               />
               <div className={styles.buttonGroup}>
                 <button type="button" className={styles.priceButton}
-                        onClick={() => handleIncrementLot(-1)}>-1
+                        onClick={() => handleIncrementLot(-10)}>-10
                 </button>
                 <button type="button" className={styles.priceButton}
                         onClick={() => handleIncrementLot(-5)}>-5
                 </button>
                 <button type="button" className={styles.priceButton}
-                        onClick={() => handleIncrementLot(-10)}>-10
+                        onClick={() => handleIncrementLot(-1)}>-1
                 </button>
 
                 <button type="button" className={styles.priceButton}
@@ -344,10 +345,13 @@ const Calculator = () => {
                   onCopy={handleCopy}
                   required
                 />
-                <button type="button" className={styles.priceButton} onClick={() => incrementPrice(setPricePerShare, pricePerShare)}>+</button>
+                <button type="button" className={styles.priceButton}
+                        onClick={() => incrementPrice(setPricePerShare, pricePerShare)}>+
+                </button>
               </div>
-              <br />
-              <label className={styles.label} htmlFor="sell_lot">Lots to Sell (optional):</label>
+              <br/>
+              <label className={styles.label} htmlFor="sell_lot">Lots to Sell
+                (optional):</label>
               <input
                 className={styles.input}
                 type="text"
@@ -361,13 +365,13 @@ const Calculator = () => {
               />
               <div className={styles.buttonGroup}>
                 <button type="button" className={styles.priceButton}
-                        onClick={() => handleIncrementSellLot(-1)}>-1
+                        onClick={() => handleIncrementSellLot(-10)}>-10
                 </button>
                 <button type="button" className={styles.priceButton}
                         onClick={() => handleIncrementSellLot(-5)}>-5
                 </button>
                 <button type="button" className={styles.priceButton}
-                        onClick={() => handleIncrementSellLot(-10)}>-10
+                        onClick={() => handleIncrementSellLot(-1)}>-1
                 </button>
                 <button type="button" className={styles.priceButton}
                         onClick={() => handleIncrementSellLot(1)}>+1
@@ -400,7 +404,9 @@ const Calculator = () => {
                   onChange={handleSellPricePerShareChange}
                   onCopy={handleCopy}
                 />
-                <button type="button" className={styles.priceButton} onClick={() => incrementPrice(setSellPricePerShare, sellPricePerShare)}>+</button>
+                <button type="button" className={styles.priceButton}
+                        onClick={() => incrementPrice(setSellPricePerShare, sellPricePerShare)}>+
+                </button>
               </div>
             </div>
           </form>
@@ -409,21 +415,34 @@ const Calculator = () => {
           {calculation && (
             <>
               <h2 className={styles.resultTitle}>Calculation Results</h2>
-              <p className={styles.resultText}>Total buying price: Rp {formatNumber(roundUp(calculation.itemPrice))}</p>
-              <p className={styles.resultText}>Buy fee: Rp {formatNumber(roundUp(calculation.buyFee))}</p>
-              <p className={styles.resultText}>Total buying price with fee: Rp {formatNumber(roundUp(calculation.totalBuyingPrice))}</p>
-              <p className={styles.resultText}>Minimum sell price to cover buy and sell fees: Rp {formatNumber(roundUp(calculation.minimumSellPrice))}</p>
-              <p className={styles.resultText}>Sell fee based on the minimum sell price: Rp {formatNumber(roundUp(calculation.sellFee))}</p>
-              <p className={styles.resultText}>Net sell price after deducting the sell fee: Rp {formatNumber(roundUp(calculation.netSellPrice))}</p>
+              <p className={styles.resultText}>Total buying price:
+                Rp {formatNumber(roundUp(calculation.itemPrice))}</p>
+              <p className={styles.resultText}>Buy fee:
+                Rp {formatNumber(roundUp(calculation.buyFee))}</p>
+              <p className={styles.resultText}>Total buying price with fee:
+                Rp {formatNumber(roundUp(calculation.totalBuyingPrice))}</p>
+              <p className={styles.resultText}>Minimum sell price to cover buy
+                and sell fees:
+                Rp {formatNumber(roundUp(calculation.minimumSellPrice))}</p>
+              <p className={styles.resultText}>Sell fee based on the minimum
+                sell price:
+                Rp {formatNumber(roundUp(calculation.sellFee))}</p>
+              <p className={styles.resultText}>Net sell price after deducting
+                the sell fee:
+                Rp {formatNumber(roundUp(calculation.netSellPrice))}</p>
             </>
           )}
           {profit && (
             <>
               <h2 className={styles.resultTitle}>Profit Calculation</h2>
-              <p className={styles.resultText}>Sell fee: Rp {formatNumber(roundUp(profit.sellFee))}</p>
-              <p className={styles.resultText}>Total fee: Rp {formatNumber(roundUp(profit.buyFee) + roundUp(profit.sellFee))}</p>
-              <p className={styles.resultText}>Pure profit before fees: Rp {formatNumber(roundUp(profit.pureProfitBeforeFee))}</p>
-              <p className={styles.resultText}>Pure profit after fees: Rp {formatNumber(roundUp(profit.pureProfitAfterFee))}</p>
+              <p className={styles.resultText}>Sell fee:
+                Rp {formatNumber(roundUp(profit.sellFee))}</p>
+              <p className={styles.resultText}>Total fee:
+                Rp {formatNumber(roundUp(profit.buyFee) + roundUp(profit.sellFee))}</p>
+              <p className={styles.resultText}>Pure profit before fees:
+                Rp {formatNumber(roundUp(profit.pureProfitBeforeFee))}</p>
+              <p className={styles.resultText}>Pure profit after fees:
+                Rp {formatNumber(roundUp(profit.pureProfitAfterFee))}</p>
             </>
           )}
         </div>
@@ -437,22 +456,22 @@ const Calculator = () => {
               maintainAspectRatio: false,
               plugins: {
                 legend: {
-                  position: 'top',
+                  position: "top",
                 },
                 title: {
                   display: true,
-                  text: 'Profit After Fees vs. Sell Price',
+                  text: "Profit After Fees vs. Sell Price",
                 },
               },
               scales: {
                 x: {
                   ticks: {
-                    color: 'white',
+                    color: "white",
                   },
                 },
                 y: {
                   ticks: {
-                    color: 'white',
+                    color: "white",
                   },
                 },
               },
