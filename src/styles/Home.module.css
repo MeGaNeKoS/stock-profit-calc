@@ -8,49 +8,120 @@
 
 .topContainer {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 60%;
     justify-content: space-between;
+    gap: 20px;
+}
+
+@media(min-width: 768px) {
+    .topContainer {
+        flex-direction: row; /* Horizontal layout on larger screens */
+    }
 }
 
 .title {
-    font-size: 36px;
+    font-size: 24px;
     margin-bottom: 20px;
     text-align: center;
 }
 
-.leftContainer {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
+@media(min-width: 768px) {
+    .title {
+        font-size: 36px;
+    }
+}
+
+.leftContainer, .resultContainer {
+    width: 100%;
+}
+
+@media(min-width: 768px) {
+    .leftContainer, .resultContainer {
+        width: 48%; /* Take half width each on larger screens */
+    }
 }
 
 .configContainer {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
     width: 100%;
     margin-bottom: 20px;
+}
+
+.configContainer > div {
+    flex: 1 1 30%; /* Allow each item to grow but ensure a minimum width */
+    display: flex;
+    align-items: center;
+    flex-direction: row; /* Default to row for mobile */
+}
+
+@media(min-width: 768px) {
+    .configContainer > div {
+        flex-direction: column; /* Stack label on top of input field on larger screens */
+        align-items: flex-start; /* Align items to the start */
+    }
+}
+
+@media(max-width: 767px) {
+    .configContainer > div {
+        flex-basis: 100%; /* Each item takes full width in a single row on mobile */
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .configContainer {
+        flex-direction: column;
+        gap: 15px; /* Adjust gap between rows for better spacing */
+    }
+}
+
+.configLabel {
+    margin-right: 10px;
+    white-space: nowrap;
+    margin-bottom: 5px; /* Add space below the label on larger screens */
+}
+
+@media(min-width: 768px) {
+    .configLabel {
+        margin-right: 0; /* Remove right margin when stacking label on top */
+    }
+}
+
+.configInput {
+    width: auto;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+    flex: 1 1 auto;
+    max-width: 150px;
 }
 
 .inputContainer {
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: 10px;
 }
 
 .priceInputContainer {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .priceButton {
     margin: 0 5px;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background-color: #333;
     color: white;
     border: 1px solid #555;
     border-radius: 4px;
+    font-size: 16px;
 }
 
 .priceButton:hover {
@@ -58,36 +129,42 @@
 }
 
 .resultContainer {
-    width: 50%;
-    padding-left: 20px;
+    padding-left: 0;
+    padding-top: 20px;
+}
+
+@media(min-width: 768px) {
+    .resultContainer {
+        padding-left: 20px;
+        padding-top: 0;
+    }
 }
 
 .resultTitle {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 10px;
 }
 
+@media(min-width: 768px) {
+    .resultTitle {
+        font-size: 24px;
+    }
+}
+
 .resultText {
-    font-size: 16px;
+    font-size: 14px;
     color: inherit;
     margin: 5px 0;
 }
 
-.configLabel {
-    margin-right: 10px;
-}
-
-.configInput {
-    margin-right: 20px;
-    padding: 5px;
-    background-color: #333;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 4px;
+@media(min-width: 768px) {
+    .resultText {
+        font-size: 16px;
+    }
 }
 
 .input {
-    padding: 5px;
+    padding: 10px;
     width: 100%;
     margin-top: 5px;
     background-color: #333;
@@ -97,21 +174,35 @@
 }
 
 .priceInput {
-    padding: 5px;
+    padding: 10px;
     background-color: #333;
     color: white;
     border: 1px solid #555;
     border-radius: 4px;
+    width: 100%;
+}
+
+@media(min-width: 768px) {
+    .priceInput {
+        width: auto;
+    }
 }
 
 .chartContainer {
     width: 100%;
-    height: 40%;
+    height: 300px;
     margin-top: 20px;
 }
 
+@media(min-width: 768px) {
+    .chartContainer {
+        height: 400px;
+    }
+}
+
 .buttonGroup {
-  display: flex;
-  gap: 5px;
-  margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
 }

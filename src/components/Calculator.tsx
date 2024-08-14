@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   CategoryScale,
@@ -414,22 +414,34 @@ const Calculator = () => {
         <div className={styles.resultContainer}>
           {calculation && (
             <>
-              <h2 className={styles.resultTitle}>Calculation Results</h2>
-              <p className={styles.resultText}>Total buying price:
-                Rp {formatNumber(roundUp(calculation.itemPrice))}</p>
-              <p className={styles.resultText}>Buy fee:
-                Rp {formatNumber(roundUp(calculation.buyFee))}</p>
-              <p className={styles.resultText}>Total buying price with fee:
-                Rp {formatNumber(roundUp(calculation.totalBuyingPrice))}</p>
-              <p className={styles.resultText}>Minimum sell price to cover buy
-                and sell fees:
-                Rp {formatNumber(roundUp(calculation.minimumSellPrice))}</p>
-              <p className={styles.resultText}>Sell fee based on the minimum
-                sell price:
-                Rp {formatNumber(roundUp(calculation.sellFee))}</p>
-              <p className={styles.resultText}>Net sell price after deducting
-                the sell fee:
-                Rp {formatNumber(roundUp(calculation.netSellPrice))}</p>
+              <h2 className={styles.resultTitle}>Calculation Summary</h2>
+              <p className={styles.resultText}>
+                Total Buying Price (Before Fees):
+                Rp {formatNumber(roundUp(calculation.itemPrice))}
+              </p>
+              <p className={styles.resultText}>
+                Buying Fee: Rp {formatNumber(roundUp(calculation.buyFee))}
+              </p>
+              <p className={styles.resultText}>
+                Total Cost After Buying Fee:
+                Rp {formatNumber(roundUp(calculation.totalBuyingPrice))}
+              </p>
+              <p className={styles.resultText}>
+                Minimum Selling Price to Break Even:
+                Rp {formatNumber(roundUp(calculation.minimumSellPrice))}
+              </p>
+              <p className={styles.resultText}>
+                Price Per Share for Minimum Selling Price:
+                Rp {formatNumber(roundUp(calculation.minimumSellPrice / (parseInt(unformatNumber(lot)) * 100)) || 0)}
+              </p>
+              <p className={styles.resultText}>
+                Selling Fee Based on Minimum Selling Price:
+                Rp {formatNumber(roundUp(calculation.sellFee))}
+              </p>
+              <p className={styles.resultText}>
+                Net Amount After Selling Fee:
+                Rp {formatNumber(roundUp(calculation.netSellPrice))}
+              </p>
             </>
           )}
           {profit && (
