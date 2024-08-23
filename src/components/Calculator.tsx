@@ -79,6 +79,8 @@ interface ProfitResult {
   sellFee: number;
   pureProfitBeforeFee: number;
   pureProfitAfterFee: number;
+  profitPercentage: number;
+  averageProfitPerShare: number;
 }
 
 const calculateMinimumSellPrice = (
@@ -126,11 +128,17 @@ const calculateProfit = (
   const pureProfitBeforeFee = totalSellPrice - proportionateBuyPrice;
   const pureProfitAfterFee = netSellPrice - totalProportionateBuyingPrice;
 
+  const profitPercentage = (pureProfitAfterFee / totalProportionateBuyingPrice) * 100;
+
+  const averageProfitPerShare = pureProfitAfterFee / sellLotValue;
+
   return {
     buyFee: buyFee,
     sellFee: sellFee,
     pureProfitBeforeFee: pureProfitBeforeFee,
     pureProfitAfterFee: pureProfitAfterFee,
+    profitPercentage: profitPercentage,
+    averageProfitPerShare: averageProfitPerShare,
   };
 };
 
@@ -268,6 +276,7 @@ const Calculator = () => {
 
       // Generate chart data
       const profitData = [];
+      const profitPercentageData = [];
       const labels = [];
       for (
         let price = sellPricePerShareValue;
@@ -284,6 +293,7 @@ const Calculator = () => {
           sellFeeValue
         );
         profitData.push(result.pureProfitAfterFee);
+        profitPercentageData.push(result.profitPercentage);
         labels.push(price);
       }
 
@@ -293,9 +303,18 @@ const Calculator = () => {
           {
             label: "Profit After Fees",
             data: profitData,
+            yAxisID: "y-profit", // Associate with the first y-axis
             borderColor: "rgba(75, 192, 192, 1)",
             backgroundColor: "rgba(75, 192, 192, 0.2)",
-            fill: true,
+            // fill: true,
+          },
+          {
+            label: "Profit Percentage",
+            data: profitPercentageData,
+            yAxisID: "y-percentage", // Associate with the second y-axis
+            borderColor: "rgba(153, 102, 255, 1)",
+            backgroundColor: "rgba(153, 102, 255, 0.2)",
+            // fill: true,
           },
         ],
       });
@@ -584,9 +603,7 @@ const Calculator = () => {
               </p>
               <p className={styles.resultText}>
                 Total fee: Rp{" "}
-                {formatNumber(
-                  roundUp(profit.buyFee) + roundUp(profit.sellFee)
-                )}
+                {formatNumber(roundUp(profit.buyFee) + roundUp(profit.sellFee))}
               </p>
               <p className={styles.resultText}>
                 Pure profit before fees: Rp{" "}
@@ -595,6 +612,13 @@ const Calculator = () => {
               <p className={styles.resultText}>
                 Pure profit after fees: Rp{" "}
                 {formatNumber(roundUp(profit.pureProfitAfterFee))}
+              </p>
+              <p className={styles.resultText}>
+                Profit percentage: {profit.profitPercentage.toFixed(2)}%
+              </p>
+              <p className={styles.resultText}>
+                Profit per share: Rp{" "}
+                {formatNumber(roundUp(profit.averageProfitPerShare))}
               </p>
             </>
           )}
